@@ -2,6 +2,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DrawingLayerComponent } from './drawing-layer.component';
 import { PdfTextSelectionService } from './pdf-text-selection.service';
 import { DrawingService, DrawingObject } from './drawing.service';
 import { RouterOutlet } from '@angular/router';
@@ -10,7 +11,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NgxExtendedPdfViewerModule],
+  imports: [CommonModule, RouterOutlet, NgxExtendedPdfViewerModule, DrawingLayerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
