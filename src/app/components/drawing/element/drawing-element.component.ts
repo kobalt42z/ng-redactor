@@ -34,6 +34,7 @@ export class DrawingElementComponent implements OnInit {
       const [x1, y1] = viewport.convertToViewportPoint(this.bbox.x, this.bbox.y);
       const [x2, y2] = viewport.convertToViewportPoint(this.bbox.x + this.bbox.width, this.bbox.y + this.bbox.height);
       
+      // Calculate position relative to the drawing layer (which should be positioned over the PDF page)
       this.left = Math.min(x1, x2);
       this.top = Math.min(y1, y2);
       this.width = Math.abs(x2 - x1);
@@ -42,7 +43,13 @@ export class DrawingElementComponent implements OnInit {
       // Force change detection
       this.cdr.detectChanges();
       
-      // Debug logging
+      // Debug logging with more detail about the page positioning
+      const pageDiv = document.querySelector(`.page[data-page-number='${this.bbox.page}']`) as HTMLElement;
+      if (pageDiv) {
+        const pageRect = pageDiv.getBoundingClientRect();
+        console.log('[DrawingElementComponent] Page div rect:', pageRect);
+      }
+      
       console.log('[DrawingElementComponent] bbox:', this.bbox);
       console.log('[DrawingElementComponent] viewport scale:', viewport.scale);
       console.log('[DrawingElementComponent] PDF points:', {x1: this.bbox.x, y1: this.bbox.y, x2: this.bbox.x + this.bbox.width, y2: this.bbox.y + this.bbox.height});

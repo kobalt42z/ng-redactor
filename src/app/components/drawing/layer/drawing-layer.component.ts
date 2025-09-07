@@ -46,16 +46,16 @@ export class DrawingLayerComponent implements OnInit {
       const pdfPage = await pdfViewerApp.pdfDocument.getPage(this.page());
       const viewport = pdfPage.getViewport({ scale: pdfViewerApp.pdfViewer.currentScale });
       
-      // Set layer size to match the PDF page viewport
+      // Set layer size to match the PDF page viewport exactly
       this.width = viewport.width;
       this.height = viewport.height;
       
-      // Position the layer relative to the page container
+      // Position the layer absolutely over the PDF page
       const pageRect = pageDiv.getBoundingClientRect();
-      const viewerContainer = document.getElementById('viewer') || document.querySelector('#viewerContainer');
+      const appContainer = this.el.nativeElement.parentElement;
       
-      if (viewerContainer) {
-        const containerRect = viewerContainer.getBoundingClientRect();
+      if (appContainer) {
+        const containerRect = appContainer.getBoundingClientRect();
         this.left = pageRect.left - containerRect.left;
         this.top = pageRect.top - containerRect.top;
       } else {
@@ -71,7 +71,9 @@ export class DrawingLayerComponent implements OnInit {
         top: this.top,
         width: this.width,
         height: this.height,
-        objects: this.objects().length
+        objects: this.objects().length,
+        pageRect: pageRect,
+        containerRect: appContainer?.getBoundingClientRect()
       });
       
     } catch (error) {
