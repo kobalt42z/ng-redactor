@@ -5,7 +5,7 @@ import { DrawingObject } from '../../../drawing.service';
   selector: 'app-drawing-element',
   standalone: true,
   templateUrl: './drawing-element.component.html',
-  styleUrls: ['./drawing-element.component.css'],
+  styleUrls: ['./drawing-element.component.scss'],
 })
 export class DrawingElementComponent {
   @Input() bbox!: DrawingObject;

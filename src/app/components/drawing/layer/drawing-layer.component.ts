@@ -8,6 +8,7 @@ import { DrawingElementComponent } from '../element/drawing-element.component';
   imports: [DrawingElementComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './drawing-layer.component.html',
+  styleUrls: ['./drawing-layer.component.scss'],
 })
 export class DrawingLayerComponent {
   objects = input.required<DrawingObject[]>();
