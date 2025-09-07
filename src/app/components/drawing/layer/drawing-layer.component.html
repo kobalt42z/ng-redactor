@@ -1,11 +1,13 @@
 <div
   class="drawing-layer"
   [style.position]="'absolute'"
-  [style.left]="left + 'px'"
-  [style.top]="top + 'px'"
-  [style.width]="width + 'px'"
-  [style.height]="height + 'px'"
+  [style.left.px]="left"
+  [style.top.px]="top"
+  [style.width.px]="width"
+  [style.height.px]="height"
   [style.pointerEvents]="'none'"
+  [style.zIndex]="1000"
+  [attr.data-page]="page()"
 >
   @for (obj of objects(); track obj) {
     <app-drawing-element [bbox]="obj"></app-drawing-element>

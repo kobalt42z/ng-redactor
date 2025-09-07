@@ -1,10 +1,10 @@
 <div
   class="drawing-overlay"
   [style.position]="'absolute'"
-  [style.left]="left + 'px'"
-  [style.top]="top + 'px'"
-  [style.width]="width + 'px'"
-  [style.height]="height + 'px'"
+  [style.left.px]="left"
+  [style.top.px]="top"
+  [style.width.px]="width"
+  [style.height.px]="height"
   [style.pointerEvents]="'none'"
   [attr.data-page]="bbox.page"
 ></div>

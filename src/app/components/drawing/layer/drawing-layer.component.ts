@@ -1,5 +1,5 @@
 
-import { Component, ChangeDetectionStrategy, ElementRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { input } from '@angular/core';
 import { DrawingObject } from '../../../drawing.service';
 import { DrawingElementComponent } from '../element/drawing-element.component';
@@ -20,31 +20,62 @@ export class DrawingLayerComponent implements OnInit {
   width = 0;
   height = 0;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private cdr: ChangeDetectorRef) {}
 
   async ngOnInit() {
-    // Get the PDF page viewport and set the layer size/position to match
-    const pdfViewerApp = (window as any).PDFViewerApplication;
-    if (!pdfViewerApp || !pdfViewerApp.pdfDocument || !pdfViewerApp.pdfViewer) return;
-    const pdfPage = await pdfViewerApp.pdfDocument.getPage(this.page());
-    const viewport = pdfPage.getViewport({ scale: pdfViewerApp.pdfViewer.currentScale });
-    // The viewport's transform gives the offset and scale
-    this.width = viewport.width;
-    this.height = viewport.height;
-    // Find the page container to get its position relative to the PDF viewer
+    // Wait for PDF viewer to be ready and find the specific page
     const pageDiv = document.querySelector(
       `.page[data-page-number='${this.page()}']`
     ) as HTMLElement;
-    if (pageDiv) {
-      const rect = pageDiv.getBoundingClientRect();
-      const parentRect = pageDiv.parentElement?.getBoundingClientRect();
-      if (parentRect) {
-        this.left = rect.left - parentRect.left;
-        this.top = rect.top - parentRect.top;
+    
+    if (!pageDiv) {
+      console.log(`[DrawingLayerComponent] Page ${this.page()} not found`);
+      // Retry after a short delay
+      setTimeout(() => this.ngOnInit(), 100);
+      return;
+    }
+
+    const pdfViewerApp = (window as any).PDFViewerApplication;
+    if (!pdfViewerApp || !pdfViewerApp.pdfDocument || !pdfViewerApp.pdfViewer) {
+      console.log('[DrawingLayerComponent] PDF viewer not ready');
+      setTimeout(() => this.ngOnInit(), 100);
+      return;
+    }
+
+    try {
+      const pdfPage = await pdfViewerApp.pdfDocument.getPage(this.page());
+      const viewport = pdfPage.getViewport({ scale: pdfViewerApp.pdfViewer.currentScale });
+      
+      // Set layer size to match the PDF page viewport
+      this.width = viewport.width;
+      this.height = viewport.height;
+      
+      // Position the layer relative to the page container
+      const pageRect = pageDiv.getBoundingClientRect();
+      const viewerContainer = document.getElementById('viewer') || document.querySelector('#viewerContainer');
+      
+      if (viewerContainer) {
+        const containerRect = viewerContainer.getBoundingClientRect();
+        this.left = pageRect.left - containerRect.left;
+        this.top = pageRect.top - containerRect.top;
       } else {
-        this.left = rect.left;
-        this.top = rect.top;
+        this.left = 0;
+        this.top = 0;
       }
+      
+      // Force change detection
+      this.cdr.detectChanges();
+      
+      console.log(`[DrawingLayerComponent] Layer ${this.page()} positioned:`, {
+        left: this.left,
+        top: this.top,
+        width: this.width,
+        height: this.height,
+        objects: this.objects().length
+      });
+      
+    } catch (error) {
+      console.error('[DrawingLayerComponent] Error:', error);
     }
   }
 }
