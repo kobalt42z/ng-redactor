@@ -1,12 +1,6 @@
 <div
   class="drawing-layer"
-  [style.position]="'absolute'"
-  [style.left.px]="left"
-  [style.top.px]="top"
-  [style.width.px]="width"
-  [style.height.px]="height"
-  [style.pointerEvents]="'none'"
-  [style.zIndex]="1000"
+  [ngStyle]="layerStyles()"
   [attr.data-page]="page()"
 >
   @for (obj of objects(); track obj) {

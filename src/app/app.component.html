@@ -8,9 +8,8 @@
 		height="80vh"
 	></ngx-extended-pdf-viewer>
 	<!-- Drawing Layer Overlay -->
-			<!-- Drawing overlays are rendered inside each PDF page container -->
-			@for (page of (drawingObjects | keyvalue); track page.key) {
-				<app-drawing-layer [objects]="page.value" [page]="+page.key"></app-drawing-layer>
-			}
+	@for (page of pagesWithObjects(); track page) {
+		<app-drawing-layer [objects]="getObjectsForPage(page)" [page]="page"></app-drawing-layer>
+	}
 </div>
 <router-outlet></router-outlet>
