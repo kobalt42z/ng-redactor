@@ -2,7 +2,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DrawingLayerComponent } from './drawing/drawing-layer.component';
+import { DrawingLayerComponent } from './components/drawing/layer/drawing-layer.component';
 import { PdfTextSelectionService } from './pdf-text-selection.service';
 import { DrawingService, DrawingObject } from './drawing.service';
 import { RouterOutlet } from '@angular/router';
