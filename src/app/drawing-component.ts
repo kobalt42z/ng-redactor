@@ -1,0 +1,23 @@
+import { Component, Input } from '@angular/core';
+import { DrawingObject } from './drawing.service';
+
+@Component({
+  selector: 'app-drawing-component',
+  standalone: true,
+  template: `
+    <div
+      class="drawing-overlay"
+      [style.position]="'absolute'"
+      [style.left]="bbox.x + 'px'"
+      [style.top]="bbox.y + 'px'"
+      [style.width]="bbox.width + 'px'"
+      [style.height]="bbox.height + 'px'"
+      [style.border]="'2px solid red'"
+      [style.pointerEvents]="'none'"
+      [attr.data-page]="bbox.page"
+    ></div>
+  `,
+})
+export class DrawingComponent {
+  @Input() bbox!: DrawingObject;
+}
