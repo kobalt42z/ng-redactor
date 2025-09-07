@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { PdfTextSelectionService } from './pdf-text-selection.service';
 import { RouterOutlet } from '@angular/router';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
@@ -13,4 +14,5 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 export class AppComponent {
   title = 'ng-redactor';
   pdfSrc = 'assets/test.pdf';
+  constructor(private pdfTextSelectionService: PdfTextSelectionService) {}
 }
