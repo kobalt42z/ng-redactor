@@ -12,7 +12,20 @@ export class PdfTextSelectionService {
   private logSelectedText = () => {
     const selection = window.getSelection();
     if (selection && selection.toString().trim().length > 0) {
-      console.log('Selected text:', selection.toString());
+      const text = selection.toString();
+      let boundingBox = null;
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        boundingBox = {
+          left: rect.left,
+          top: rect.top,
+          width: rect.width,
+          height: rect.height
+        };
+      }
+      console.log('Selected text:', text);
+      console.log('Bounding box:', boundingBox);
     }
   };
 }
