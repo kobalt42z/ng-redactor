@@ -33,6 +33,8 @@ export class DrawingElementComponent {
       const [x1, y1] = viewport.convertToViewportPoint(drawing.x, drawing.y);
       const [x2, y2] = viewport.convertToViewportPoint(drawing.x + drawing.width, drawing.y + drawing.height);
       
+      // Since the drawing layer is now a child of the page container,
+      // we can use the viewport coordinates directly as they're relative to the page
       return {
         left: Math.min(x1, x2),
         top: Math.min(y1, y2),
@@ -48,7 +50,7 @@ export class DrawingElementComponent {
   // Computed styles for template binding
   elementStyles = computed(() => {
     const coords = this.viewportCoords();
-    if (!coords) return {};
+    if (!coords) return { display: 'none' };
 
     return {
       position: 'absolute',
