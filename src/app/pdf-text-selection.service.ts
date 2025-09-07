@@ -49,9 +49,11 @@ export class PdfTextSelectionService {
           page: pageNumber,
           text
         };
-        this.selectionSubject.next(pdfBoundingBox);
+  console.log('Selected text:', text);
+  console.log('Bounding box (PDF coordinates):', pdfBoundingBox);
+  this.selectionSubject.next(pdfBoundingBox);
       }
     }
   };
 }
-}
+

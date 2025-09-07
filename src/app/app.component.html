@@ -8,21 +8,19 @@
 		height="80vh"
 	></ngx-extended-pdf-viewer>
 	<!-- Drawing Layer Overlay -->
-	<div id="drawing-layer" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;">
-		<ng-container *ngFor="let page of (drawingObjects | keyvalue)">
-			<ng-container *ngFor="let obj of page.value">
-				<div
-					[style.position]="'absolute'"
-					[style.left]="obj.x + 'px'"
-					[style.top]="obj.y + 'px'"
-					[style.width]="obj.width + 'px'"
-					[style.height]="obj.height + 'px'"
-					[style.border]="'2px solid red'"
-					[style.pointerEvents]="'none'"
-					[attr.data-page]="obj.page"
-				></div>
-			</ng-container>
-		</ng-container>
-	</div>
+		<div id="drawing-layer" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;">
+			@for (page of (drawingObjects | keyvalue); track page.key) {
+				@for (obj of page.value; track obj) {
+					<div
+						style="position: absolute; border: 2px solid red; pointer-events: none;"
+						[style.left]="obj.x + 'px'"
+						[style.top]="obj.y + 'px'"
+						[style.width]="obj.width + 'px'"
+						[style.height]="obj.height + 'px'"
+						[attr.data-page]="obj.page"
+					></div>
+				}
+			}
+		</div>
 </div>
 <router-outlet></router-outlet>
