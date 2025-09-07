@@ -1,3 +1,7 @@
 .drawing-overlay {
-  /* Add more styles as needed */
+  background: rgba(255, 255, 0, 0.4); /* semi-transparent yellow */
+  border: none;
+  border-radius: 2px;
+  box-sizing: border-box;
+  transition: background 0.2s;
 }
